@@ -18,6 +18,7 @@ const {
   downloadPlugin
 } = require('../controllers/pluginController');
 const { protect } = require('../middleware/authMiddleware');
+const { uploadPluginFiles } = require('../middleware/uploadMiddleware');
 
 // Ensure upload directories exist
 const createDirIfNotExists = (dir) => {
@@ -75,10 +76,8 @@ const uploadFields = upload.fields([
   { name: 'thumbnail', maxCount: 1 }
 ]);
 
-// Routes
-router.route('/')
-  .post(protect, uploadFields, createPlugin)
-  .get(getPlugins);
+router.post('/api/plugins', protect, uploadPluginFiles, createPlugin);
+router.route('/').get(getPlugins);
 
 router.get('/featured', getFeaturedPlugins);
 router.get('/my-plugins', protect, getUserPlugins);
