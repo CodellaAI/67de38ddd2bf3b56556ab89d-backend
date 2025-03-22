@@ -10,16 +10,17 @@ const Plugin = require('../models/pluginModel');
 const createPlugin = asyncHandler(async (req, res) => {
   const { name, description, price, version, category } = req.body;
 
-  if (!req.file) {
+  // Check if files were uploaded
+  if (!req.files || !req.files.jarFile) {
     res.status(400);
     throw new Error('Please upload a JAR file');
   }
 
-  const jarFilePath = `/uploads/plugins/${req.file.filename}`;
+  const jarFilePath = `/uploads/plugins/${req.files.jarFile[0].filename}`;
   let thumbnailPath = null;
 
   // Check if thumbnail was uploaded
-  if (req.files && req.files.thumbnail) {
+  if (req.files.thumbnail) {
     thumbnailPath = `/uploads/thumbnails/${req.files.thumbnail[0].filename}`;
   }
 
