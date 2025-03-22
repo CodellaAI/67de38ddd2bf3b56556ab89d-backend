@@ -76,7 +76,7 @@ const uploadFields = upload.fields([
   { name: 'thumbnail', maxCount: 1 }
 ]);
 
-router.post('/api/plugins', protect, uploadPluginFiles, createPlugin);
+router.post('/', protect, uploadPluginFiles, createPlugin);
 router.route('/').get(getPlugins);
 
 router.get('/featured', getFeaturedPlugins);
